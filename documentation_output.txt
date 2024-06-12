@@ -1,0 +1,42 @@
+**Policy Search and Organised Data Models Documentation**
+
+1. Description
+The Policy Search and Organised Data models are part of a larger system designed to manage data related to policy searches and their organisation. These models provide the underlying structure for storing and retrieving data about policies, their corresponding organised data, and the accounts associated with them.
+
+2. Classes
+### PolicySearch
+
+*   **Attributes**
+    +   `auto_increment_id` (AutoField): Unique identifier for each policy search record.
+    +   `created_at` (DateTimeField): Timestamp of when the policy search was created.
+    +   `name` (CharField): Name of the policy search.
+    +   `keywords` (TextField): Keywords associated with the policy search, stored as a comma-separated string.
+    +   `account` (ForeignKey): Foreign key referencing the Account model, representing the account associated with this policy search.
+    +   `object_id` (CharField): Unique identifier for the object related to this policy search.
+    +   `progress` (IntegerField): Progress status of the policy search (default: 0).
+    +   `unique_thread_id` (CharField): Unique identifier for the thread associated with this policy search.
+*   **Functions**
+    ####  `__str__(self)`
+
+    -   Parameters:
+        -   None
+    -   Returns:
+        -   `return_type`: A string representation of the PolicySearch object, including its name, account email, and creation timestamp.
+
+### OrganisedData
+
+*   **Attributes**
+    +   `auto_increment_id` (AutoField): Unique identifier for each organised data record.
+    +   `created_at` (DateTimeField): Timestamp of when the organised data was created.
+    +   `name` (CharField): Name of the organised data.
+    +   `object_id` (CharField): Unique identifier for the object related to this organised data.
+    +   `raw_data` (ForeignKey): Foreign key referencing the PolicySearch model, representing the policy search associated with this organised data.
+    +   `account` (ForeignKey): Foreign key referencing the Account model, representing the account associated with this organised data.
+
+*   **Functions**
+    ####  `__str__(self)`
+
+    -   Parameters:
+        -   None
+    -   Returns:
+        -   `return_type`: A string representation of the OrganisedData object, including its name, account email, and creation timestamp.

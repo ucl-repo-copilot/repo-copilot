@@ -1,0 +1,129 @@
+Based on the provided code snippet for PolicySearch and OrganisedData models in Django, here are some comprehensive test cases:
+
+**Test Case 1: Valid PolicySearch creation**
+
+# Description of the test case scenario
+This test case checks if a valid PolicySearch model instance can be created.
+
+# Input:
+- auto_increment_id = None (default value)
+- created_at = current datetime
+- name = "Test Policy"
+- keywords = ""
+- account = an existing Account object
+- object_id = ""
+- progress = 0
+- unique_thread_id = ""
+
+# Expected Output:
+A valid PolicySearch model instance with the specified attributes.
+
+```
+def test_policy_search_creation():
+    # Arrange
+    account = Account.objects.create(email="test@example.com")
+    policy_search_data = {
+        'name': "Test Policy",
+        'account': account,
+        'object_id': ""
+    }
+
+    # Act
+    policy_search = PolicySearch(**policy_search_data)
+
+    # Assert
+    self.assertIsInstance(policy_search, PolicySearch)
+    self.assertEqual(policy_search.name, policy_search_data['name'])
+    self.assertEqual(policy_search.account.email, account.email)
+```
+
+**Test Case 2: Invalid PolicySearch creation (missing required field)**
+
+# Description of the test case scenario
+This test case checks if an invalid PolicySearch model instance is raised when a required field is missing.
+
+# Input:
+- name = "Test Policy"
+- account = an existing Account object
+- object_id = ""
+- progress = 0
+- unique_thread_id = ""
+
+# Expected Output:
+An error or exception is raised due to the missing 'created_at' attribute.
+
+```
+def test_policy_search_creation_missing_required_field():
+    # Arrange
+    account = Account.objects.create(email="test@example.com")
+    policy_search_data = {
+        'name': "Test Policy",
+        'account': account,
+        'object_id': ""
+    }
+
+    # Act and Assert
+    with self.assertRaises(Exception):
+        PolicySearch(**policy_search_data)
+```
+
+**Test Case 3: Valid OrganisedData creation**
+
+# Description of the test case scenario
+This test case checks if a valid OrganisedData model instance can be created.
+
+# Input:
+- auto_increment_id = None (default value)
+- created_at = current datetime
+- name = "Test Data"
+- object_id = ""
+- raw_data = an existing PolicySearch instance
+- account = an existing Account object
+
+# Expected Output:
+A valid OrganisedData model instance with the specified attributes.
+
+```
+def test_organised_data_creation():
+    # Arrange
+    policy_search = PolicySearch.objects.create(name="Test Data", account=Account(email="test@example.com"))
+    organised_data_data = {
+        'name': "Test Data",
+        'raw_data': policy_search,
+        'account': Account(email="test@example.com")
+    }
+
+    # Act
+    organised_data = OrganisedData(**organised_data_data)
+
+    # Assert
+    self.assertIsInstance(organised_data, OrganisedData)
+    self.assertEqual(organised_data.name, organised_data_data['name'])
+    self.assertEqual(organised_data.raw_data.id, policy_search.id)
+```
+
+**Test Case 4: Invalid OrganisedData creation (missing required field)**
+
+# Description of the test case scenario
+This test case checks if an invalid OrganisedData model instance is raised when a required field is missing.
+
+# Input:
+- name = "Test Data"
+- object_id = ""
+- raw_data = None (missing)
+- account = an existing Account object
+
+# Expected Output:
+An error or exception is raised due to the missing 'raw_data' attribute.
+
+```
+def test_organised_data_creation_missing_required_field():
+    # Arrange
+    policy_search = PolicySearch.objects.create(name="Test Data", account=Account(email="test@example.com"))
+
+    # Act and Assert
+    with self.assertRaises(Exception):
+        OrganisedData(name="Test Data", raw_data=None, account=Account(email="test@example.com"))
+```
+
+These test cases cover various scenarios, including the creation of valid PolicySearch and OrganisedData instances, as well as testing for invalid input (missing required fields).
