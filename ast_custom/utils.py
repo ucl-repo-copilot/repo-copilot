@@ -1,5 +1,12 @@
-from .ast_parser import ASTParser
 import re, os, json, ast
+
+from graph_encoder import GraphEncoder
+import graph
+from file_ast_parser import FileASTParser
+from method import Method
+from class_ import Class
+from file import File
+from graph import Graph
 
 def build_tree_and_relationships(root_folder, exclude_dirs_regex=r'env'):
     """
@@ -29,26 +36,67 @@ def save_to_json(tree, relationships, output_file):
         json.dump(data, json_file, indent=4)
 
 
-def __build_tree(root_folder, exclude_dirs_regex):
-    """
-    Build a tree representation of the project's directory structure and extract functions and classes from Python files.
-
-    Args:
-        root_folder (str): The root folder of the project.
-        exclude_dirs_regex (str): Regular expression pattern to exclude specific directories from the tree.
-
-    Returns:
-        tuple: A tuple containing the tree representation, a set of project functions, and a dictionary of file contents.
-        
-    The tree contains the following keys:
-        'tree' (dict): A dictionary representing the project's directory structure with functions and classes. (File name -> classes/functions)
-        'classes' (dict): A dictionary of classes and their methods in the given file (class name -> list of method names)
-        'function_set' (set): A set of all function names in the given file
-    (file_name -> {'classes': {class_name -> [method_names]}, 'functions': [function_names]})
+def build_graph(root_folder, exclude_dirs_regex=r'env') -> Graph:
+    graph = Graph()
     
-    The function_set contains all the function names in the project, including those within classes.
-    The file_contents dictionary contains the contents of each file in the project.    
-    """
+    # Graph -> File[] -> Class[] (-> Method[]), Method[]
+    for file_path in __get_python_files(root_folder, exclude_dirs_regex):
+        parsed = FileASTParser(file_path)
+        file_name = os.path.basename(file_path)
+        file_methods = parsed.methods
+        file_classes = parsed.classes # Dict of class name -> [method1, method2, ...]
+        methods_calls = parsed.method_calls
+        graph.add_internal(parsed.calls)
+        
+        classes = []
+        for class_node, class_methods in file_classes.items(): # Iterate over ClassDef nodes
+            methods = []
+            for method in class_methods: # Iterate over FunctionDef nodes
+                calls = methods_calls.get(f"{class_node.name}.{method.name}", [])
+                
+                
+                print(f"Method: {class_node.name}.{method.name}, Calls: {calls}")
+                
+                methods.append(Method(name=method.name,
+                                      node=method,
+                                      internal=[], 
+                                      external=[]))
+                
+            classes.append(Class(name=class_node.name,
+                                 node=class_node, 
+                                 methods=methods))
+
+        methods = []
+        for method in file_methods:
+            calls = methods_calls.get(method.name, [])
+            print(f"Method: {file_name}.{method.name}, Calls: {calls}")
+            
+            methods.append(Method(name=method.name,
+                                  node=method,
+                                  internal=[], 
+                                  external=[]))
+
+        relative_path = os.path.relpath(file_path, root_folder).replace(os.sep, '/')
+        graph.add_file(File(
+            name=os.path.basename(file_path),
+            path=relative_path,
+            classes=classes,
+            methods=methods
+        ))
+    return graph    
+
+
+def __get_python_files(root_folder, exclude_dirs_regex):
+    python_files = []
+    for dirpath, dirnames, filenames in os.walk(root_folder):
+        dirnames[:] = [d for d in dirnames if not re.search(exclude_dirs_regex, d)]
+        for filename in filenames:
+            if filename.endswith('.py'):
+                python_files.append(os.path.join(dirpath, filename))
+    return python_files
+
+
+def __build_tree(root_folder, exclude_dirs_regex):
     tree = {}
     function_set = set()
     file_contents = {}
@@ -124,3 +172,8 @@ def __build_function_relationships(root_folder, function_set, exclude_dirs_regex
                 relationships[relative_path] = calls
 
     return relationships
+
+graph = build_graph('c:/Coding/repo-copilot/ast_custom/example')
+with open('graph.json', 'w') as file:
+    json.dump(graph, file, cls=GraphEncoder, indent=4)
+print("End")

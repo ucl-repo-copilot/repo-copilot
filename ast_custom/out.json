@@ -1,0 +1,142 @@
+{
+    "tree": {
+        "a.py": {
+            "classes": {
+                "A": [
+                    "method1",
+                    "method2",
+                    "method3"
+                ]
+            },
+            "functions": [
+                "method1",
+                "method2",
+                "method3"
+            ]
+        },
+        "b.py": {
+            "classes": {
+                "B": [
+                    "__init__",
+                    "method1",
+                    "method2",
+                    "method3"
+                ]
+            },
+            "functions": [
+                "__init__",
+                "method1",
+                "method2",
+                "method3"
+            ]
+        },
+        "c.py": {
+            "classes": {
+                "C": [
+                    "__init__",
+                    "method1",
+                    "method2",
+                    "method3"
+                ]
+            },
+            "functions": [
+                "__init__",
+                "method1",
+                "method2",
+                "method3"
+            ]
+        }
+    },
+    "relationships": {
+        "a.py": {
+            "method1": {
+                "internal": [],
+                "external": [
+                    "print",
+                    "str",
+                    "uuid4"
+                ]
+            },
+            "method2": {
+                "internal": [],
+                "external": [
+                    "print"
+                ]
+            },
+            "method3": {
+                "internal": [],
+                "external": [
+                    "print"
+                ]
+            }
+        },
+        "b.py": {
+            "__init__": {
+                "internal": [],
+                "external": [
+                    "A"
+                ]
+            },
+            "method1": {
+                "internal": [
+                    "method1"
+                ],
+                "external": [
+                    "print"
+                ]
+            },
+            "method2": {
+                "internal": [
+                    "method2"
+                ],
+                "external": [
+                    "print"
+                ]
+            },
+            "method3": {
+                "internal": [
+                    "method3"
+                ],
+                "external": [
+                    "compile",
+                    "str",
+                    "print",
+                    "uuid4"
+                ]
+            }
+        },
+        "c.py": {
+            "__init__": {
+                "internal": [],
+                "external": [
+                    "A",
+                    "B"
+                ]
+            },
+            "method1": {
+                "internal": [
+                    "method1"
+                ],
+                "external": [
+                    "print"
+                ]
+            },
+            "method2": {
+                "internal": [
+                    "method2"
+                ],
+                "external": [
+                    "print"
+                ]
+            },
+            "method3": {
+                "internal": [
+                    "method3"
+                ],
+                "external": [
+                    "print"
+                ]
+            }
+        }
+    }
+}
