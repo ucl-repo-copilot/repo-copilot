@@ -6,26 +6,20 @@
             "classes": [
                 {
                     "name": "A",
-                    "content": "\n\nclass A():\n\n    def methodA1(self):\n        str(uuid4())\n        print('Method 1 from class A')\n\n    def methodA2(self):\n        self.methodA1()\n",
+                    "content": "\n\nclass A():\n\n    def methodA1(self):\n        str(uuid4())\n        print('Method 1 from class A')\n\n    def methodA2(self):\n        print('Method 2 from class A')\n",
                     "methods": [
                         {
                             "name": "methodA1",
                             "internal": [],
-                            "external": [
-                                "uuid4",
-                                "str",
-                                "print"
-                            ],
+                            "external": [],
                             "content": "\n\ndef methodA1(self):\n    str(uuid4())\n    print('Method 1 from class A')\n",
                             "docs": ""
                         },
                         {
                             "name": "methodA2",
-                            "internal": [
-                                "A.methodA1"
-                            ],
+                            "internal": [],
                             "external": [],
-                            "content": "\n\ndef methodA2(self):\n    self.methodA1()\n",
+                            "content": "\n\ndef methodA2(self):\n    print('Method 2 from class A')\n",
                             "docs": ""
                         }
                     ]
@@ -35,9 +29,7 @@
                 {
                     "name": "methodA3",
                     "internal": [],
-                    "external": [
-                        "print"
-                    ],
+                    "external": [],
                     "content": "\n\ndef methodA3():\n    print('Method 3 from module A')\n",
                     "docs": ""
                 }
@@ -49,39 +41,27 @@
             "classes": [
                 {
                     "name": "B",
-                    "content": "\n\nclass B():\n\n    def __init__(self):\n        self.a = A()\n\n    def methodB1(self):\n        print('Method 1 from class B')\n        self.a.methodA1()\n\n    def methodB2(self):\n        str(uuid.uuid4())\n        re.compile('')\n        print('Method 3 from class B')\n        self.a.methodA3()\n",
+                    "content": "\n\nclass B():\n\n    def __init__(self):\n        self.a = A()\n\n    def methodB1(self):\n        print('Method 1 from class B')\n        self.a.methodA1()\n\n    def methodB2(self):\n        str(uuid.uuid4())\n        re.compile('')\n        print('Method 3 from class B')\n        methodA3()\n",
                     "methods": [
                         {
                             "name": "__init__",
-                            "internal": [
-                                "A"
-                            ],
+                            "internal": [],
                             "external": [],
                             "content": "\n\ndef __init__(self):\n    self.a = A()\n",
                             "docs": ""
                         },
                         {
                             "name": "methodB1",
-                            "internal": [
-                                "A.methodA1"
-                            ],
-                            "external": [
-                                "print"
-                            ],
+                            "internal": [],
+                            "external": [],
                             "content": "\n\ndef methodB1(self):\n    print('Method 1 from class B')\n    self.a.methodA1()\n",
                             "docs": ""
                         },
                         {
                             "name": "methodB2",
                             "internal": [],
-                            "external": [
-                                "str",
-                                "uuid.uuid4",
-                                "A.methodA3",
-                                "re.compile",
-                                "print"
-                            ],
-                            "content": "\n\ndef methodB2(self):\n    str(uuid.uuid4())\n    re.compile('')\n    print('Method 3 from class B')\n    self.a.methodA3()\n",
+                            "external": [],
+                            "content": "\n\ndef methodB2(self):\n    str(uuid.uuid4())\n    re.compile('')\n    print('Method 3 from class B')\n    methodA3()\n",
                             "docs": ""
                         }
                     ]
@@ -99,35 +79,22 @@
                     "methods": [
                         {
                             "name": "__init__",
-                            "internal": [
-                                "B",
-                                "A"
-                            ],
+                            "internal": [],
                             "external": [],
                             "content": "\n\ndef __init__(self):\n    self.a = A()\n    self.b = B()\n",
                             "docs": ""
                         },
                         {
                             "name": "methodC1",
-                            "internal": [
-                                "B.methodB1",
-                                "A.methodA1"
-                            ],
-                            "external": [
-                                "print"
-                            ],
+                            "internal": [],
+                            "external": [],
                             "content": "\n\ndef methodC1(self):\n    print('Method 1 from class C')\n    self.a.methodA1()\n    self.b.methodB1()\n",
                             "docs": ""
                         },
                         {
                             "name": "methodC2",
-                            "internal": [
-                                "A.methodA2",
-                                "B.methodB2"
-                            ],
-                            "external": [
-                                "print"
-                            ],
+                            "internal": [],
+                            "external": [],
                             "content": "\n\ndef methodC2(self):\n    print('Method 2 from class C')\n    self.a.methodA2()\n    self.b.methodB2()\n",
                             "docs": ""
                         }
@@ -138,9 +105,7 @@
                 {
                     "name": "methodC3",
                     "internal": [],
-                    "external": [
-                        "print"
-                    ],
+                    "external": [],
                     "content": "\n\ndef methodC3():\n    print('Method 3 from module C')\n",
                     "docs": ""
                 }
@@ -148,18 +113,18 @@
         }
     ],
     "internal": [
-        "B",
+        "A.methodA2",
+        "A",
+        "B.methodB2",
         "C.methodC1",
-        "C.__init__",
+        "C",
+        "B",
+        "A.methodA1",
         "B.__init__",
         "B.methodB1",
         "c.methodC3",
-        "A.methodA2",
-        "A.methodA1",
-        "A",
-        "C.methodC2",
-        "C",
-        "B.methodB2",
-        "a.methodA3"
+        "C.__init__",
+        "a.methodA3",
+        "C.methodC2"
     ]
 }

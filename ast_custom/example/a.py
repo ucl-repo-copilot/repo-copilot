@@ -6,7 +6,7 @@ class A:
         print("Method 1 from class A")
     
     def methodA2(self):
-        print("Method 2 from class A")
+        self.methodA1()
         
 def methodA3():
     print("Method 3 from module A")
