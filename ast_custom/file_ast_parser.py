@@ -1,6 +1,7 @@
 import ast
 import os
 import astpretty
+from ordered_set import OrderedSet
 
 
 class FileASTParser:
@@ -9,12 +10,12 @@ class FileASTParser:
         self.path = path
         self.module_name = basename.replace('.py', '')
         # Method of the file (not belonging to class) [methods1, methods2, ...]
-        self.methods = set()
+        self.methods = OrderedSet()
         self.classes = {}  # {"class_node": [methods1, methods2, ...], ...}
         # All method relationships {"method_name": ["methods1", "methods2"], ...}
         self.method_calls = {}
         self.visited = set()
-        self.internal_calls = set()
+        self.internal_calls = OrderedSet()
         self.assigns = {}
         self.imports = {}
         self.tree = None
@@ -52,7 +53,7 @@ class FileASTParser:
 
         name = f"{parent.name}.{node.name}" if parent is not None else f"{
             self.module_name}.{node.name}"
-        self.method_calls[name] = set()
+        self.method_calls[name] = OrderedSet()
         for child in ast.walk(node):
             if isinstance(child, ast.Call):
                 self.__visit_call(child, name)

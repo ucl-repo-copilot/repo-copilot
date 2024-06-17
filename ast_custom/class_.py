@@ -1,5 +1,5 @@
 from ast import ClassDef
-from method import Method
+from ast_custom.method import Method
 from astunparse import unparse
 
 
@@ -14,7 +14,7 @@ class Class:
         docs (str): The documentation of the class.
     """
 
-    def __init__(self, name, assignements : dict[str, str], node: ClassDef, methods: list[Method]):
+    def __init__(self, name, assignements: dict[str, str], node: ClassDef, methods: list[Method]):
         self.name = name
         self.assignements = assignements
         self.content = unparse(node)

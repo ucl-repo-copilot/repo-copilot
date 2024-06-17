@@ -1,9 +1,12 @@
 import re
-from class_ import Class
-from method import Method
-from file_ast_parser import FileASTParser
-from file import File
 
+from ordered_set import OrderedSet
+from ast_custom.class_ import Class
+from ast_custom.file_ast_parser import FileASTParser
+from ast_custom.method import Method
+from ast_custom.file import File
+import cache.cache as cache
+from cache.element import Element
 
 class Graph:
     """
@@ -17,8 +20,8 @@ class Graph:
 
     def __init__(self):
         self.files = []
-        self.internal_methods = set()
-        self.internal_classes = set()
+        self.internal_methods = OrderedSet()
+        self.internal_classes = OrderedSet()
 
     def add_file(self, file_: File):
         self.files.append(file_)
@@ -31,12 +34,6 @@ class Graph:
 
     def to_dict(self):
         return self.files
-        # Uncomment for full debug
-        # return {
-        #     'files': self.files,
-        #     'internal_methods': list(self.internal_methods),
-        #     'internal_classes': list(self.internal_classes)
-        # }
 
     def build_relationships(self, map: dict[str, FileASTParser]):
         """
@@ -45,9 +42,7 @@ class Graph:
         Args:
             map (dict[str, FileASTParser]): A dictionary mapping file paths to FileASTParser objects.
         """
-        print(f"Found {len(self.internal_methods)} Internal Methods and {
-              len(self.internal_classes)} Internal Classes.")
-        print(f"Building relationships for {len(self.files)} files...")
+        print(f"Building relationships")
 
         # Iterate over all files in the graph
         for file in self.files:
@@ -56,9 +51,10 @@ class Graph:
             # Build relationships for all methods and classes in the file
             for method in file.methods:
                 self.__build_method_relationships(method, parser)
+                cache.set(f'{file.module}.{method.name}', Element(file.module, method))
             for class_ in file.classes:
                 self.__build_class_method_relationships(class_, parser)
-
+            
         print("Relationships built successfully!")
 
     def __build_method_relationships(self, method: Method, parser: FileASTParser):
@@ -93,6 +89,7 @@ class Graph:
         """
         for method in class_.methods:
             caller = f"{class_.name}.{method.name}"
+            cache.set(caller, Element(class_.name, method))
             for callee in parser.method_calls.get(caller, []):
                 if re.match(r'self\..*\..*', callee):  # self.obj.method
                     callee = callee.replace('self.', '')

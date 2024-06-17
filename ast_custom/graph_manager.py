@@ -2,12 +2,12 @@ import re
 import os
 import json
 
-from graph_encoder import GraphEncoder
-from file_ast_parser import FileASTParser
-from method import Method
-from class_ import Class
-from file import File
-from graph import Graph
+from ast_custom.graph_encoder import GraphEncoder
+from ast_custom.file_ast_parser import FileASTParser
+from ast_custom.method import Method
+from ast_custom.class_ import Class
+from ast_custom.file import File
+from ast_custom.graph import Graph
 
 
 def save_graph_to_json(graph, path='graph_output/graph.json'):
@@ -17,6 +17,7 @@ def save_graph_to_json(graph, path='graph_output/graph.json'):
 
 
 def build_graph(root_folder, exclude_dirs_regex=r'env') -> Graph:
+    print(f'Building graph for {root_folder}')
     graph = Graph()
     map = {}  # {file_path: {method_name: [calls]}}
 
@@ -59,7 +60,8 @@ def build_graph(root_folder, exclude_dirs_regex=r'env') -> Graph:
                             imports=parsed.imports,
                             classes=classes,
                             methods=methods))
-
+        
+    print(f'Graph built successfully!')
     graph.build_relationships(map)
     return graph
 
@@ -73,7 +75,3 @@ def __get_python_files_in_dir(directory, exclude_dirs_regex=r'env'):
             if filename.endswith('.py'):
                 python_files.append(os.path.join(dirpath, filename))
     return python_files
-
-
-graph = build_graph('c:/Coding/repo-copilot/ast_custom/example')
-save_graph_to_json(graph)

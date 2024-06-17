@@ -1,5 +1,5 @@
-from class_ import Class
-from method import Method
+from ast_custom.class_ import Class
+from ast_custom.method import Method
 
 
 class File:
@@ -15,6 +15,7 @@ class File:
 
     def __init__(self, name, path, imports: dict[str, str], classes: list[Class], methods: list[Method]):
         self.name = name
+        self.module = name.split('.')[0]
         self.path = path
         self.imports = imports
         self.classes = classes
