@@ -3,7 +3,7 @@ from autogen import AssistantAgent, UserProxyAgent
 
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), './../')))
 
-from ast_custom.utils import build_tree_and_relationships, save_to_json
+from ast_custom.graph_manager import build_tree_and_relationships, save_to_json
 
 # Documentation Generation Code
 print("Starting the documentation generation process...")
