@@ -6,52 +6,73 @@ Now you need to generate a document for "{file_name}".
 The content of the code is as follows:
 {file_content}
 
-The standard format is as follows:
+Please generate a detailed explanation document for this object based on the code of the target object itself, considering the additional documentation for the functions and classes called within the file:
+{additional_docs}).
 
-# {file_name}: 
+Please note any part of the content you generate SHOULD NOT CONTAIN Markdown hierarchical heading and divider syntax.
 
-The function of {file_name} is XXX. (Only code name and one sentence function description are required)
+The standard format for class and standalone function documentation is as follows:
 
-## Class 1: NameOfClass1
+# {file_name}
 
-### Attributes
+## ClassDef NameOfClass
+
+The function of the class is XXX. (Only code name and one sentence function description are required)
+
+**Attributes**:
 
 - `attribute1` (`type`): Description of the first attribute.
 - `attribute2` (`type`): Description of the second attribute.
 
-### Functions 
+**Functions**:
 
 - `function_name`(param1: type, param2: type) -> return_type
     - Parameters:
         - `param1` (`type`): Description of the first parameter.
         - `param2` (`type`): Description of the second parameter.
-        - Returns:
-            - `return_type`: Description of the return value.
-- Called_functions: List of functions called within this function and short description of what they do.
-        - `function1`: Description of what function1 does.
-        - `function2`: Description of what function2 does.   
+    - Returns:
+        - `return_type`: Description of the return value.
 
-## Function 1: NameOfFunction1: (functions that do not belong to a class but are still present in the file)
+**Called_functions**:
 
-### Parameters:
+- `function1`(param1: type, param2: type) -> return_type: Description of what function1 does and what function1 returns.
+- `function2`(param1: type, param2: type) -> return_type: Description of what function2 does and what function2 returns.   
+
+**Code Description**: The description of this class. (Detailed and CERTAIN code analysis and description)
+
+**Note**: Points to note about the use of the code
+
+**Input Example**: `Provide an example in JSON format along with an explanation`
+
+**Output Example**: `Provide an example in JSON format along with an explanation`
+
+
+
+## FunctionDef NameOfFunction (functions that do not belong to a class but are still present in the file)
+
+The function of the function is XXX. (Only code name and one sentence function description are required)
+
+**Parameters**:
 
 - `param1` (`type`): Description of the first parameter.
 - `param2` (`type)`: Description of the second parameter.
 
-### Returns:
+**Returns**:
 
 - `return_type`: Description of the return value.
 
-### Called_functions: List of functions called within this function and a short description of what they do.
+**Called_functions**:
 
-- `function1`: Description of what function1 does.
-- `function2`: Description of what function2 does.
+- `function1`(param1: type, param2: type) -> return_type: Description of what function1 does and what function1 returns.
+- `function2`(param1: type, param2: type) -> return_type: Description of what function2 does does and what function2 returns.
 
-## Note: Consider the additional documentation for the functions and classes called within the file:
-{additional_docs}
+**Code Description**: The description of this function. (Detailed and CERTAIN code analysis and description)
 
-Please note:
-- Any part of the content you generate SHOULD NOT CONTAIN Markdown hierarchical heading and divider syntax.
+**Note**: Points to note about the use of the code
+
+**Input Example**: ```Provide an example in JSON format along with an explanation```
+
+**Output Example**: ```Provide an example in JSON format along with an explanation```
 
 """
 
