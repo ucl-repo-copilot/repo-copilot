@@ -1,0 +1,153 @@
+{
+    "files": [
+        {
+            "name": "data_processor.py",
+            "module": "data_processor",
+            "path": "data_processor.py",
+            "imports": {
+                "validate_email": "utils"
+            },
+            "classes": [
+                {
+                    "name": "DataProcessor",
+                    "assignements": {},
+                    "content": "\n\nclass DataProcessor():\n\n    def process_data(self, data):\n        return [item.upper() for item in data]\n\n    def check_emails(self, emails):\n        return [validate_email(email) for email in emails]\n",
+                    "methods": [
+                        {
+                            "name": "process_data",
+                            "internal": [],
+                            "external": [
+                                "item.upper"
+                            ],
+                            "content": "\n\ndef process_data(self, data):\n    return [item.upper() for item in data]\n",
+                            "docs": ""
+                        },
+                        {
+                            "name": "check_emails",
+                            "internal": [
+                                "validate_email"
+                            ],
+                            "external": [],
+                            "content": "\n\ndef check_emails(self, emails):\n    return [validate_email(email) for email in emails]\n",
+                            "docs": ""
+                        }
+                    ],
+                    "docs": ""
+                }
+            ],
+            "methods": []
+        },
+        {
+            "name": "main.py",
+            "module": "main",
+            "path": "main.py",
+            "imports": {
+                "User": "user",
+                "DataProcessor": "data_processor"
+            },
+            "classes": [],
+            "methods": [
+                {
+                    "name": "main",
+                    "internal": [
+                        "User",
+                        "DataProcessor"
+                    ],
+                    "external": [
+                        "print",
+                        "processor.process_data"
+                    ],
+                    "content": "\n\ndef main():\n    user = User('John Doe', 'john.doe@example.com')\n    print(user)\n    processor = DataProcessor()\n    data = ['apple', 'banana', 'cherry']\n    processed_data = processor.process_data(data)\n    print(f'Processed Data: {processed_data}')\n",
+                    "docs": ""
+                }
+            ]
+        },
+        {
+            "name": "user.py",
+            "module": "user",
+            "path": "user.py",
+            "imports": {
+                "uuid": null
+            },
+            "classes": [
+                {
+                    "name": "User",
+                    "assignements": {
+                        "id": "uuid4.uuid"
+                    },
+                    "content": "\n\nclass User():\n\n    def __init__(self, name, email):\n        self.id = uuid.uuid4()\n        self.name = name\n        self.email = email\n\n    def __str__(self):\n        return f'User [ID: {self.id}, Name: {self.name}, Email: {self.email}]'\n\n    def update_email(self, new_email):\n        self.email = new_email\n",
+                    "methods": [
+                        {
+                            "name": "__init__",
+                            "internal": [],
+                            "external": [
+                                "uuid.uuid4"
+                            ],
+                            "content": "\n\ndef __init__(self, name, email):\n    self.id = uuid.uuid4()\n    self.name = name\n    self.email = email\n",
+                            "docs": ""
+                        },
+                        {
+                            "name": "__str__",
+                            "internal": [],
+                            "external": [],
+                            "content": "\n\ndef __str__(self):\n    return f'User [ID: {self.id}, Name: {self.name}, Email: {self.email}]'\n",
+                            "docs": ""
+                        },
+                        {
+                            "name": "update_email",
+                            "internal": [],
+                            "external": [],
+                            "content": "\n\ndef update_email(self, new_email):\n    self.email = new_email\n",
+                            "docs": ""
+                        }
+                    ],
+                    "docs": ""
+                }
+            ],
+            "methods": []
+        },
+        {
+            "name": "utils.py",
+            "module": "utils",
+            "path": "utils.py",
+            "imports": {
+                "re": null
+            },
+            "classes": [],
+            "methods": [
+                {
+                    "name": "validate_email",
+                    "internal": [],
+                    "external": [
+                        "re.match"
+                    ],
+                    "content": "\n\ndef validate_email(email):\n    pattern = '^[a-z0-9]+[\\\\._]?[a-z0-9]+[@]\\\\w+[.]\\\\w+$'\n    if re.match(pattern, email):\n        return True\n    return False\n",
+                    "docs": ""
+                }
+            ]
+        },
+        {
+            "name": "__init__.py",
+            "module": "__init__",
+            "path": "__init__.py",
+            "imports": {},
+            "classes": [],
+            "methods": []
+        }
+    ],
+    "internal_methods": [
+        "DataProcessor.process_data",
+        "DataProcessor.check_emails",
+        "DataProcessor",
+        "main.main",
+        "User.__init__",
+        "User.__str__",
+        "User.update_email",
+        "User",
+        "utils.validate_email"
+    ],
+    "internal_classes": [
+        "DataProcessor",
+        "User"
+    ]
+}

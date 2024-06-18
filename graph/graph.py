@@ -33,7 +33,11 @@ class Graph:
         self.internal_classes.update(internal)
 
     def to_dict(self):
-        return self.files
+        return {
+            "files": self.files,
+            "internal_methods": list(self.internal_methods),
+            "internal_classes": list(self.internal_classes)
+        }
 
     def build_relationships(self, map: dict[str, ASTParser]):
         """

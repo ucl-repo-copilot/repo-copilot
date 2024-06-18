@@ -1,12 +1,12 @@
 from cache import cache
 from graph.graph_manager import build_graph, save_graph_to_json
 
-graph = build_graph('./program_examples/simple')
+graph = build_graph('./program_examples/users')
 save_graph_to_json(graph)
 
 visited = set()
 result = []
-queue = ['C.methodC1']
+queue = ['main.main']
 
 while queue:
     current = queue.pop(0)

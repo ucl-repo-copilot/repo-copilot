@@ -3,6 +3,9 @@ import os
 import astpretty
 from ordered_set import OrderedSet
 
+# TODO: Not sure how to deal with user = User(), user = factory.getFactory().getUser(), etc. etc.
+# TODO: Handle scoped assignments, i.e. self.x = y, self.x = self.y, etc.
+# TODO: Finish Users project test
 
 class ASTParser:
     def __init__(self, path):
@@ -51,19 +54,24 @@ class ASTParser:
         if parent is None:
             self.methods.add(node)
 
+        scope_assignements = {}
+
         name = f"{parent.name}.{node.name}" if parent is not None else f"{
             self.module_name}.{node.name}"
         self.method_calls[name] = OrderedSet()
         for child in ast.walk(node):
             if isinstance(child, ast.Call):
-                self.__visit_call(child, name)
+                self.__visit_call(child, name, scope_assignements)
             elif isinstance(child, ast.Assign) and node.name == "__init__":
                 self.__visit_init_assign(child)
+            elif isinstance(child, ast.Assign):
+                self.__visit_scoped_assign(child, scope_assignements)
+                
         self.visited.add(node)
         # Add method name to the calls, i.e. A.method1()
         self.internal_calls.add(name)
 
-    def __visit_call(self, node: ast.Call, name: str):
+    def __visit_call(self, node: ast.Call, name: str, scope_assignements={}):
         if isinstance(node.func, ast.Name):
             self.method_calls[name].add(node.func.id)
         elif isinstance(node.func, ast.Attribute):
@@ -74,8 +82,7 @@ class ASTParser:
                 self.method_calls[name].add(f"{value.id}.{attribute}")
                 # self.method_calls[name].add(f".{value.id}.{attribute}") # self.method1()
             elif isinstance(value, ast.Attribute):
-                self.method_calls[name].add(f"{value.value.id}.{value.attr}.{
-                                            attribute}")  # A.method1.method2()
+                self.method_calls[name].add(f"{value.value.id}.{value.attr}.{attribute}")  # A.method1.method2()
                 # self.method_calls[name].add(f"{value.attr}.{attribute}")
             elif isinstance(value, ast.Call):
                 self.method_calls[name].add(
@@ -84,12 +91,32 @@ class ASTParser:
                 self.method_calls[name].add(attribute)  # method1()
 
     def __visit_init_assign(self, node: ast.Assign):
+        key = node.targets[0].attr if isinstance(node.targets[0], ast.Attribute) else node.targets[0].id
         value = node.value
-        for target in node.targets:
-            if isinstance(target, ast.Name):
-                self.assigns[target.id] = node.value
-            elif isinstance(target, ast.Attribute):
-                self.assigns[target.attr] = node.value.func.id
+        
+        if isinstance(value, ast.Name) or isinstance(value, ast.Attribute):
+            return # Skip any assignments of the form x = y
+        
+        if isinstance(value, ast.Call) and isinstance(value.func, ast.Attribute):
+            self.assigns[key] = f'{node.value.func.value.id}.{node.value.func.attr}'
+        elif isinstance(value, ast.Call) and isinstance(value.func, ast.Name):
+            self.assigns[key] = value.func.id
+        else:
+            AttributeError(f"Unexpected assignment: {node}")
+
+    def __visit_scoped_assign(self, node: ast.Assign, scope_assignements: dict):
+        key = node.targets[0].attr if isinstance(node.targets[0], ast.Attribute) else node.targets[0].id
+        value = node.value
+        
+        if isinstance(value, ast.Name) or isinstance(value, ast.Attribute):
+            return # Skip any assignments of the form x = y
+        if isinstance(value, ast.Call) and isinstance(value.func, ast.Attribute):
+            scope_assignements[key] = f'{node.value.func.value.id}.{node.value.func.attr}'
+        elif isinstance(value, ast.Call) and isinstance(value.func, ast.Name):
+            scope_assignements[key] = value.func.id
+        else:
+            AttributeError(f"Unexpected assignment: {node}")
+            
 
     def __visit_import(self, node: ast.Import):
         for alias in node.names:
@@ -102,3 +129,5 @@ class ASTParser:
 
     def __get_method_nodes(self, class_: ast.ClassDef) -> list[ast.FunctionDef]:
         return [node for node in class_.body if isinstance(node, ast.FunctionDef)]
+    
+    

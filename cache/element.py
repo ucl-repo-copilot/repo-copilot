@@ -6,6 +6,7 @@ class Element:
         self.class_name = class_name
         self.method = method
 
+    # TODO: Store path to the file
     def get_file_name(self):
         return self.file_name
 
