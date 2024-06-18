@@ -1,5 +1,5 @@
-from ast_custom.class_ import Class
-from ast_custom.method import Method
+from graph.class_ import Class
+from graph.method import Method
 
 
 class File:

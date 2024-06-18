@@ -1,8 +1,8 @@
-from ast_custom.graph_manager import build_graph, save_graph_to_json
 from cache import cache
+from graph.graph_manager import build_graph, save_graph_to_json
 
-graph = build_graph('./ast_custom/example')
-save_graph_to_json(graph, './out/graph.json')
+graph = build_graph('./program_examples/simple')
+save_graph_to_json(graph)
 
 visited = set()
 result = []
@@ -29,5 +29,6 @@ Documentation generated: ``{'✓' if method.docs else 'X'}``
     queue.extend(method.internal)
     
 # Write result
-with open('./out/result.md', 'w') as file:
+with open('./result.md', 'w') as file:
     file.write('\n'.join(result))
+    

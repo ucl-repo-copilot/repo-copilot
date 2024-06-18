@@ -4,7 +4,7 @@ import astpretty
 from ordered_set import OrderedSet
 
 
-class FileASTParser:
+class ASTParser:
     def __init__(self, path):
         basename = os.path.basename(path)
         self.path = path

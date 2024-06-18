@@ -1,6 +1,6 @@
 import json
 
-from ast_custom.graph import Graph
+from graph.graph import Graph
 
 
 class GraphEncoder(json.JSONEncoder):

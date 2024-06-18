@@ -1,10 +1,10 @@
 import re
 
 from ordered_set import OrderedSet
-from ast_custom.class_ import Class
-from ast_custom.file_ast_parser import FileASTParser
-from ast_custom.method import Method
-from ast_custom.file import File
+from graph.class_ import Class
+from ast_custom.ast_parser import ASTParser
+from graph.method import Method
+from graph.file import File
 import cache.cache as cache
 from cache.element import Element
 
@@ -35,7 +35,7 @@ class Graph:
     def to_dict(self):
         return self.files
 
-    def build_relationships(self, map: dict[str, FileASTParser]):
+    def build_relationships(self, map: dict[str, ASTParser]):
         """
         Builds the relationships between files, methods, and classes in the graph.
 
@@ -57,7 +57,7 @@ class Graph:
             
         print("Relationships built successfully!")
 
-    def __build_method_relationships(self, method: Method, parser: FileASTParser):
+    def __build_method_relationships(self, method: Method, parser: ASTParser):
         """
         Builds the relationships for a given method that is in a module (not part of a class).
 
@@ -79,7 +79,7 @@ class Graph:
             else:
                 method.external.append(callee)
 
-    def __build_class_method_relationships(self, class_: Class, parser: FileASTParser):
+    def __build_class_method_relationships(self, class_: Class, parser: ASTParser):
         """
         Builds the relationships for all methods in a given class.
 

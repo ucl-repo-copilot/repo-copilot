@@ -1,5 +1,5 @@
 from ast import ClassDef
-from ast_custom.method import Method
+from graph.method import Method
 from astunparse import unparse
 
 
