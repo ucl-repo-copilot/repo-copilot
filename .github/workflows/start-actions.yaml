@@ -1,0 +1,27 @@
+name: Start Actions on Commit
+on:
+  push:
+      branches:
+        - '**'
+  pull_request:
+      branches:
+        - main
+
+jobs:
+  documentation_and_validation:
+    if: github.event_name == 'push'
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Run documentation script
+        run: echo "Running documentation script"
+      - name: Run validation script
+        run: echo "Running validation script"
+
+  test_cases:
+    if: github.event_name == 'pull_request' && github.base_ref == 'main'
+    runs-on: windows-latest
+    steps: 
+      - uses: actions/checkout@v4
+      - name: Run test cases
+        run: echo "Running test cases"
