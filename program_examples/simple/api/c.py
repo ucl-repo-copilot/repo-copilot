@@ -1,5 +1,5 @@
-from ast_custom.example.a import A
-from ast_custom.example.b import B
+from a import A
+from b import B
 
 class C:
     def __init__(self):

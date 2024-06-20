@@ -1,6 +1,7 @@
 import re
 import uuid
-from ast_custom.example.a import A, methodA3
+
+from a import A, methodA3
 
 class B:
     def __init__(self):
