@@ -12,16 +12,22 @@ jobs:
     if: github.event_name == 'push'
     runs-on: windows-latest
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
       - name: Run documentation script
-        run: echo "Running documentation script"
+        run: ./repo_documentation/app.py
+
       - name: Run validation script
-        run: echo "Running validation script"
+        run: ./repo_validation/app.py
+
 
   test_cases:
     if: github.event_name == 'pull_request' && github.base_ref == 'main'
     runs-on: windows-latest
     steps: 
-      - uses: actions/checkout@v4
-      - name: Run test cases
-        run: echo "Running test cases"
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Run test cases in main 
+        run: cd repo-client && pytest tests
