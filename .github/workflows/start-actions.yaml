@@ -13,16 +13,20 @@ jobs:
     runs-on: windows-latest
     steps:
       - name: Checkout Code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v2
 
-      - name: Install dependencies
-        run: pip install pyinstaller
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with: 
+         python-version: '3.10'
+
+      #- name: Install dependencies - will add once all dependencies are included
 
       - name: Run documentation script
-        run: ./repo_documentation/app.py
+        run: cd repo_documentation && python app.py
 
       - name: Run validation script
-        run: ./repo_validation/app.py
+        run: cd repo_validation && python app.py
 
 
   test_cases:
@@ -30,7 +34,14 @@ jobs:
     runs-on: windows-latest
     steps: 
       - name: Checkout Code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v2
+
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.10'
+
+     # - name: Install Dependencies - will add once all dependencies are included
 
       - name: Run test cases in main 
-        run: cd repo-client && pytest
+        run: cd repo_client && pytest
