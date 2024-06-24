@@ -6,12 +6,12 @@ Now you need to generate a document for "{file_name}".
 The content of the code is as follows:
 {file_content}
 
-Please generate a detailed explanation document for this object based on the code of the target object itself, considering the additional documentation for the functions and classes called within the file:
+Please generate a detailed explanation document for this object based on the code of the target object itself. For the section Called_functions, considering the additional documentation for the functions and classes called within the file:
 {additional_docs}).
 
 Please note any part of the content you generate SHOULD NOT CONTAIN Markdown hierarchical heading and divider syntax.
 
-The standard format for class and standalone function documentation is as follows:
+The standard format is as follows (If a section does not have any information, you can skip it and move to the next one):
 
 # {file_name}
 
@@ -22,29 +22,34 @@ The function of the class is XXX. (Only code name and one sentence function desc
 **Attributes**:
 
 - `attribute1` (`type`): Description of the first attribute.
-- `attribute2` (`type`): Description of the second attribute.
 
 **Functions**:
 
-- `function_name`(param1: type, param2: type) -> return_type
+- `function_name1`(`param1`: `type`) -> `return_type`
     - Parameters:
         - `param1` (`type`): Description of the first parameter.
-        - `param2` (`type`): Description of the second parameter.
     - Returns:
         - `return_type`: Description of the return value.
 
 **Called_functions**:
 
-- `function1`(param1: type, param2: type) -> return_type: Description of what function1 does and what function1 returns.
-- `function2`(param1: type, param2: type) -> return_type: Description of what function2 does and what function2 returns.   
+- `function1`(`param1`: `type`) -> `return_type`: Description of what function1 does and what function1 returns.
 
 **Code Description**: The description of this class. (Detailed and CERTAIN code analysis and description)
 
-**Note**: Points to note about the use of the code
+**Note**: Points to note about the use of the code according to the returns
 
-**Input Example**: `Provide an example in JSON format along with an explanation`
+**Input Example**: 
 
-**Output Example**: `Provide an example in JSON format along with an explanation`
+```
+Provide an input example for a specified data type (e.g., list, double, int) and include a detailed explanation.
+```
+
+**Output Example**:
+
+```
+Provide an output example for a specified data type (e.g., list, double, int) and include a detailed explanation.
+```
 
 
 
@@ -55,7 +60,6 @@ The function of the function is XXX. (Only code name and one sentence function d
 **Parameters**:
 
 - `param1` (`type`): Description of the first parameter.
-- `param2` (`type)`: Description of the second parameter.
 
 **Returns**:
 
@@ -63,16 +67,23 @@ The function of the function is XXX. (Only code name and one sentence function d
 
 **Called_functions**:
 
-- `function1`(param1: type, param2: type) -> return_type: Description of what function1 does and what function1 returns.
-- `function2`(param1: type, param2: type) -> return_type: Description of what function2 does does and what function2 returns.
+- `function1`(`param1`: `type`) -> `return_type`: Description of what function1 does and what function1 returns.
 
 **Code Description**: The description of this function. (Detailed and CERTAIN code analysis and description)
 
-**Note**: Points to note about the use of the code
+**Note**: Points to note about the use of the code according to the returns
 
-**Input Example**: ```Provide an example in JSON format along with an explanation```
+**Input Example**: 
 
-**Output Example**: ```Provide an example in JSON format along with an explanation```
+```
+Provide an input example for a specified data type (e.g., list, double, int) and include a detailed explanation.
+```
+
+**Output Example**: 
+
+```
+Provide an output example for a specified data type (e.g., list, double, int) and include a detailed explanation.
+```
 
 """
 
