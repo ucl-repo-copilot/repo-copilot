@@ -20,5 +20,11 @@ jobs:
       - name: Install dependencies
         run: pip3 install -r requirements.txt
 
+      - name: Start ollama server
+        run: curl -fsSL https://ollama.com/install.sh | sh
+
+      - name: Run Llama 3
+        run: ollama run llama3
+
       - name: Run documentation script
         run: cd repo_documentation && python app.py
