@@ -1,5 +1,11 @@
 {
     "tree": {
+        "file1.py": {
+            "classes": {},
+            "functions": [
+                "manage_searches_view"
+            ]
+        },
         "file2.py": {
             "classes": {
                 "PolicySearch": [
@@ -10,52 +16,46 @@
                 "parse_content",
                 "__str__"
             ]
-        },
-        "file1.py": {
-            "classes": {},
-            "functions": [
-                "manage_searches_view"
-            ]
         }
     },
     "relationships": {
-        "file2.py": {
-            "parse_content": {
-                "internal": [],
-                "external": [
-                    "findall",
-                    "compile",
-                    "urlparse",
-                    "strip",
-                    "str",
-                    "uuid4",
-                    "append"
-                ]
-            },
-            "__str__": {
-                "internal": [],
-                "external": [
-                    "str"
-                ]
-            }
-        },
         "file1.py": {
             "manage_searches_view": {
                 "internal": [
                     "parse_content"
                 ],
                 "external": [
-                    "render",
-                    "iterrows",
-                    "defaultdict",
                     "static",
-                    "order_by",
+                    "render",
                     "read_csv",
-                    "dict",
-                    "str",
+                    "filter",
                     "append",
                     "redirect",
-                    "filter"
+                    "str",
+                    "order_by",
+                    "defaultdict",
+                    "dict",
+                    "iterrows"
+                ]
+            }
+        },
+        "file2.py": {
+            "parse_content": {
+                "internal": [],
+                "external": [
+                    "findall",
+                    "append",
+                    "urlparse",
+                    "str",
+                    "uuid4",
+                    "compile",
+                    "strip"
+                ]
+            },
+            "__str__": {
+                "internal": [],
+                "external": [
+                    "str"
                 ]
             }
         }
