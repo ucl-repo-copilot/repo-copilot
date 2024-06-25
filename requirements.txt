@@ -1,4 +1,7 @@
-autogen 
-prompt 
-ast_custom 
+pyautogen == 0.2.28
+prompt == 0.4.1
+Django == 5.0.6
+django-appconf == 1.0.6
+django-user-accounts == 3.3.2
+pandas == 2.2.2 
 pytest
