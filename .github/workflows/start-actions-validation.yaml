@@ -1,0 +1,23 @@
+name: Start Actions on Commit for Validation
+on:
+  push:
+    branches:
+      - '**'
+
+jobs:
+  validation:
+    if: github.event_name == 'push'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v2
+
+      - name: Set up Python 
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.10'
+
+      # - name: Install dependencies - wull add once all dependencies are included
+
+      - name: Run validation script
+        run: cd repo_validation && python app.py

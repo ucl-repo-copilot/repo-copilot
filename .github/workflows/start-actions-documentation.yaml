@@ -1,0 +1,23 @@
+name: Start Actions on Commit for Documentation
+on:
+  push:
+      branches:
+        - '**'
+  
+jobs:          
+  documentation:
+    if: github.event_name == 'push'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v2
+
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with: 
+         python-version: '3.10'
+
+      #- name: Install dependencies - will add once all dependencies are included
+
+      - name: Run documentation script
+        run: cd repo_documentation && python app.py
