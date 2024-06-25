@@ -18,7 +18,7 @@ jobs:
          python-version: '3.10'
 
       - name: Install dependencies
-        run: pip3 install -r repo_documentation/requirements.txt
+        run: pip3 install -r repo-copilot/requirements.txt
 
       - name: Run documentation script
         run: cd repo_documentation && python app.py
