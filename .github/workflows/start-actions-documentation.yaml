@@ -25,6 +25,12 @@ jobs:
 
       - name: Run Llama 3
         run: ollama run llama3
+      
+      - name: Create docs_output directory
+        run: mkdir -p repo_documentation/docs_output
 
+      - name: Set permissions for docs_output directory
+        run: chmod -R 777 repo_documentation/docs_output
+        
       - name: Run documentation script
         run: cd repo_documentation && python app.py
