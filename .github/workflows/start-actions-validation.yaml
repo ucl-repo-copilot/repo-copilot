@@ -33,7 +33,10 @@ jobs:
         run: chmod 777 repo_validation/docs_output
 
       - name: Run validation script
-        run: cd repo_validation && python app.py
+        run: |
+          cd repo_validation
+          python app.py
+          mv *.md docs_output/
 
       - name: Upload validation output
         uses: actions/upload-artifact@v2
