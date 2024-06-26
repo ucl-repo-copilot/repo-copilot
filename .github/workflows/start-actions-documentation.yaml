@@ -36,7 +36,7 @@ jobs:
         run: |
           cd repo_documentation
           python app.py 
-          mv *docs_file2.py_*.md && *docs_file1.py_*.md docs_output/
+          mv *docs_file2.py_*.md *docs_file1.py_*.md docs_output/
 
       - name: Upload documentation output
         uses: actions/upload-artifact@v2
