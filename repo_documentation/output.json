@@ -1,11 +1,5 @@
 {
     "tree": {
-        "file1.py": {
-            "classes": {},
-            "functions": [
-                "manage_searches_view"
-            ]
-        },
         "file2.py": {
             "classes": {
                 "PolicySearch": [
@@ -16,45 +10,51 @@
                 "parse_content",
                 "__str__"
             ]
+        },
+        "file1.py": {
+            "classes": {},
+            "functions": [
+                "manage_searches_view"
+            ]
         }
     },
     "relationships": {
+        "file2.py": {
+            "parse_content": {
+                "internal": [],
+                "external": [
+                    "strip",
+                    "urlparse",
+                    "append",
+                    "compile",
+                    "uuid4",
+                    "findall",
+                    "str"
+                ]
+            },
+            "__str__": {
+                "internal": [],
+                "external": [
+                    "str"
+                ]
+            }
+        },
         "file1.py": {
             "manage_searches_view": {
                 "internal": [
                     "parse_content"
                 ],
                 "external": [
-                    "static",
-                    "render",
-                    "read_csv",
-                    "filter",
-                    "append",
-                    "redirect",
-                    "str",
                     "order_by",
-                    "defaultdict",
+                    "read_csv",
                     "dict",
-                    "iterrows"
-                ]
-            }
-        },
-        "file2.py": {
-            "parse_content": {
-                "internal": [],
-                "external": [
-                    "findall",
+                    "redirect",
                     "append",
-                    "urlparse",
-                    "str",
-                    "uuid4",
-                    "compile",
-                    "strip"
-                ]
-            },
-            "__str__": {
-                "internal": [],
-                "external": [
+                    "defaultdict",
+                    "render",
+                    "static",
+                    "filter",
+                    "iterrows",
                     "str"
                 ]
             }
