@@ -29,8 +29,8 @@ jobs:
       - name: Run documentation script
         run: cd repo_documentation && python app.py
 
-      - name: Save documentation output
+      - name: Upload documentation output
         uses: actions/upload-artifact@v2
         with:
-          name: documentation-output
+          name: validation-output
           path: repo_documentation/docs_output/
