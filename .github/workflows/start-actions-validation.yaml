@@ -26,21 +26,8 @@ jobs:
       - name: Run Llama 3
         run: ollama run llama3
 
-      - name: Create docs_output directory
-        run: mkdir -p repo_validation/docs_output
-
-      - name: Set permissions for docs_output directory
-        run: chmod 777 repo_validation/docs_output
-
       - name: Run validation script
         run: |
           cd repo_validation
           python app.py
-          mv *docs_output/docs_file2.py_*md *docs_output/docs_file1.py_*md docs_output/
-
-      - name: Upload validation output
-        uses: actions/upload-artifact@v2
-        with:
-          name: validation-output
-          path: repo_validation/docs_output/
       
