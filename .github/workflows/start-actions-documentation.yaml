@@ -37,4 +37,5 @@ jobs:
           git config --local user.name "github-actions"
           git add .
           git diff-index --quiet HEAD || git commit -m "Generate documentation"
+          git pull
           git push
