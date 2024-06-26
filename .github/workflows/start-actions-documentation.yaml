@@ -27,6 +27,12 @@ jobs:
         run: ollama run llama3
 
       - name: Run documentation script
+        run: cd repo_documentation && python app.py
+
+      - name: Commit and push if changes
         run: |
-          cd repo_documentation
-          python app.py 
+          git config --local user.email "github-actions@github.com"
+          git config --local user.name "github-actions"
+          git add .
+          git diff-index --quiet HEAD || git commit -m "Generate documentation"
+          git push
