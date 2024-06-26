@@ -31,7 +31,7 @@ jobs:
 
       - name: Commit and push if changes
         run: |
-          git config --local user.email "bot@github.com"
+          git config --local user.email "2073614001@qq.com"
           git config --local user.name "Documentation Bot"
           git add .
           git diff-index --quiet HEAD || git commit -m "Generate documentation"
