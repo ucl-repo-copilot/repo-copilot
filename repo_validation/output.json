@@ -23,13 +23,13 @@
             "parse_content": {
                 "internal": [],
                 "external": [
-                    "strip",
-                    "urlparse",
-                    "compile",
-                    "str",
-                    "append",
                     "findall",
-                    "uuid4"
+                    "append",
+                    "compile",
+                    "uuid4",
+                    "str",
+                    "strip",
+                    "urlparse"
                 ]
             },
             "__str__": {
@@ -45,17 +45,17 @@
                     "parse_content"
                 ],
                 "external": [
-                    "filter",
+                    "dict",
                     "redirect",
-                    "order_by",
-                    "render",
-                    "read_csv",
-                    "defaultdict",
-                    "str",
                     "iterrows",
+                    "str",
                     "static",
                     "append",
-                    "dict"
+                    "filter",
+                    "defaultdict",
+                    "render",
+                    "order_by",
+                    "read_csv"
                 ]
             }
         }
