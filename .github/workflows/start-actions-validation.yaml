@@ -28,3 +28,9 @@ jobs:
 
       - name: Run validation script
         run: cd repo_validation && python app.py
+
+      - name: Save validation output
+        uses: actions/upload-artifact@v2
+        with:
+          name: validation-output
+          path: repo_validation/docs_output/
