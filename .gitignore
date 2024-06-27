@@ -1,5 +1,5 @@
 # Environment
-.env*
+.env_rag
 .venv*
 venv*
 env*
@@ -8,3 +8,5 @@ env*
 .cache
 .cache/
 __pycache__/
+
+.vscode/
