@@ -2,6 +2,7 @@ import utils
 import os
 import sys
 import time
+import asyncio
 
 sys.path.append(os.path.abspath(
     os.path.join(os.path.dirname(__file__), './../')))
@@ -9,6 +10,8 @@ sys.path.append(os.path.abspath(
 from code2flow.code2flow import utils as graph_utils
 from cache.docs_cache import DocsCache
 from autogen_utils import utils as autogen_utils
+from documentation_evaluation import evaluate_documentation
+from repo_documentation.prompt import DOCUMENTATION_PROMPT
 
 class RepoDocumentation():
     def __init__(self, root_folder):
@@ -17,7 +20,7 @@ class RepoDocumentation():
         self.assistant = autogen_utils.load_assistant_agent()
         self.user = autogen_utils.load_user_agent()
 
-    def run(self):
+    async def run(self):
         print('Generating documentation...')
         print(f'Root folder: {self.root_folder}')
         print(f'Output folder: {self.output_dir}')
@@ -57,6 +60,20 @@ class RepoDocumentation():
                 save_debug=True
             )
 
+             # Collect query and response for evaluation
+            query = DOCUMENTATION_PROMPT.format(
+                file_name=os.path.basename(file_path),
+                file_content=file_content,
+                root_folder=self.root_folder,
+                additional_docs=additional_docs
+            )
+            response = docs
+
+            # Evaluate the documentation
+            eval_result = await evaluate_documentation(query=query, response=response, file_content=file_content)
+            print(f"passing: {eval_result.passing}, score: {eval_result.score}, feedback: {eval_result.feedback}")
+
+
             # Write the documentation to a file
             docs_filepath = utils.write_file_docs(output_dir=self.output_dir,
                                                   root_folder=self.root_folder,
@@ -70,9 +87,12 @@ class RepoDocumentation():
         utils.save_cache(self.output_dir, cache)
 
         total = round(time.time() - start_time, 3)
-        print(f'Generated documentation ({
-              cache.size()} files) can be found in {self.output_dir}')
+        print(f'Generated documentation ({cache.size()} files) can be found in {self.output_dir}')
         print(f"Documentation generation completed in {total}s.")
 
 
-RepoDocumentation(root_folder='./../../users/').run()
+if __name__ == "__main__":
+    # Use asyncio to run the asynchronous main function
+    root_folder = './../../users/'
+    repo_documentation = RepoDocumentation(root_folder)
+    asyncio.run(repo_documentation.run())
