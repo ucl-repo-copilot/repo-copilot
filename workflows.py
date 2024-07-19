@@ -1,5 +1,4 @@
 update_docs_workflow_content = """
-
 name: Start Actions on Commit for Updating Documentation
 on:
   pull_request:
@@ -21,15 +20,6 @@ jobs:
         uses: actions/setup-python@v2
         with: 
          python-version: '3.10'
-
-      - name: Get PR branch
-        uses: xt0rted/pull-request-comment-branch@v1
-        id: comment-branch
-
-      - name: Checkout PR branch
-        uses: actions/checkout@v3
-        with:
-          ref: ${{ steps.comment-branch.outputs.head_ref }}
 
       - name: Set up .env file
         run: |
@@ -58,10 +48,12 @@ jobs:
           SEARCH_ENDPOINT: ${{ secrets.SEARCH_ENDPOINT }}
           GITHUB_ACCESS_TOKEN: ${{ secrets.GITHUB_ACCESS_TOKEN }}
 
-      - name: Get local main branch
+      - name: Get local branches
         run: |
-          git fetch origin main && git checkout main
-          git checkout ${{ steps.comment-branch.outputs.head_ref }}
+          git fetch origin main
+          git checkout main
+          git fetch origin ${{ github.head_ref }}
+          git checkout ${{ github.head_ref }}
 
       - name: Run Docker Compose
         run: docker-compose up --build --detach
@@ -74,7 +66,7 @@ jobs:
 
       - name: Run update documentation script
         run: |
-          docker exec repo-copilot python3 /repo-copilot/repo_documentation/update_app.py --branch "${{ steps.comment-branch.outputs.head_ref }}"
+          docker exec repo-copilot python3 /repo-copilot/repo_documentation/update_app.py --branch "${{ github.head_ref }}"
 
       - name: Commit and push if changes in repository
         run: |
