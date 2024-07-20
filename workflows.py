@@ -91,7 +91,9 @@ jobs:
     runs-on: ubuntu-latest
     environment: GPT
     permissions:
-      contents: write 
+      contents: write
+      issues: read
+      pull-requests: read
     name: PR comment
     if: ${{ github.event.issue.pull_request }} && startsWith(github.event.comment.body, 'Documentation ')
 
@@ -102,8 +104,10 @@ jobs:
           python-version: '3.10'
 
       - name: Get PR branch
-        uses: xt0rted/pull-request-comment-branch@v1
+        uses: xt0rted/pull-request-comment-branch@v2
         id: comment-branch
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Checkout PR branch
         uses: actions/checkout@v3
