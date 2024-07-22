@@ -10,7 +10,7 @@ sys.path.append(os.path.abspath(
 from code2flow.code2flow import utils as graph_utils
 from cache.docs_cache import DocsCache
 from autogen_utils import utils as autogen_utils
-from documentation_evaluation import evaluate_documentation
+from documentation_evaluation import evaluate_answer_relevancy
 from repo_documentation.prompt import DOCUMENTATION_PROMPT
 
 class RepoDocumentation():
@@ -60,18 +60,19 @@ class RepoDocumentation():
                 save_debug=True
             )
 
-             # Collect query and response for evaluation
+            #Collect query and response for evaluation
             query = DOCUMENTATION_PROMPT.format(
                 file_name=os.path.basename(file_path),
                 file_content=file_content,
                 root_folder=self.root_folder,
                 additional_docs=additional_docs
             )
+            #query = "say my name"
             response = docs
 
             # Evaluate the documentation
-            eval_result = await evaluate_documentation(query=query, response=response, file_content=file_content)
-            print(f"passing: {eval_result.passing}, score: {eval_result.score}, feedback: {eval_result.feedback}")
+            eval_result = await evaluate_answer_relevancy(query=query, response=response)
+            print(f"score: {eval_result.score}, feedback: {eval_result.feedback}")
 
 
             # Write the documentation to a file
@@ -91,8 +92,11 @@ class RepoDocumentation():
         print(f"Documentation generation completed in {total}s.")
 
 
+#RepoDocumentation(root_folder='./../../users/').run()
 if __name__ == "__main__":
     # Use asyncio to run the asynchronous main function
-    root_folder = './../../users/'
+    #root_folder = 'D:/UCL/Term 3/unoserver/src/unoserver/comments_removed'
+    #root_folder = 'D:/UCL/Term 3/Project/repo-copilot/code2flow/projects/users'
+    root_folder = 'D:/UCL/Term 3/SmoothStream'
     repo_documentation = RepoDocumentation(root_folder)
     asyncio.run(repo_documentation.run())

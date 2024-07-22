@@ -1,1 +1,2 @@
-from .evaluation_utils import evaluate_documentation
+from .evaluation_utils import evaluate_answer_relevancy
+from .evaluation_utils import evaluate_relevancy
