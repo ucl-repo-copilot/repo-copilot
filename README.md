@@ -1,6 +1,6 @@
 # repo-copilot
 
-`repo-copilot` uses Semantic Kernel and Autogen to generate documentation for your repository. `repo-copilot` automates the process of generating and reviewing code documentation using a multi-agent approach. It is designed to be easy to use.
+`repo-copilot` leverages Semantic Kernel and Autogen to automate the process of generating and reviewing code documentation for your repository through a multi-agent approach. Additionally, with its integrated workflows, `repo-copilot` streamlines the documentation update process, ensuring it is both efficient and user-friendly.
 
 ## Getting Started
 
