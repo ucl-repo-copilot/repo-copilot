@@ -1,1 +1,94 @@
 # repo-copilot
+
+`repo-copilot` uses Semantic Kernel and Autogen to generate documentation for your repository. It is designed to be easy to use.`
+
+## Getting Started
+
+### Docker Setup
+
+Add the following `Dockerfile` to your repository:
+
+```
+version: "3.8"
+
+services:
+  repo-copilot:
+    image: zenawang/repo-copilot:doc_gen
+    container_name: repo-copilot
+    volumes:
+      - .:/workspace
+    working_dir: /workspace
+    env_file:
+      - .env
+```
+
+
+### Environment Variables
+
+Create a `.env` file in your repository with the following variables:
+
+```
+GLOBAL_LLM_SERVICE="AzureOpenAI"
+CHAT_DEPLOYMENT_NAME=""
+AZURE_OPENAI_API_KEY=""
+AZURE_OPENAI_ENDPOINT=""
+AZURE_OPENAI_EMBEDDING_DEPLOYMENT_NAME=""
+AZURE_OPENAI_API_VERSION="2023-03-15-preview"
+API_TYPE="azure"
+BASE_URL=""
+
+AZURE_AI_SEARCH_KEY=""
+SEARCH_ENDPOINT=""
+
+GITHUB_ACCESS_TOKEN=""
+
+ROOT_FOLDER="/workspace"
+```
+
+## Run `repo-copilot`
+
+### Activate `repo-copilot` Image
+
+To activate the `repo-copilot` Docker image and ensure it continues running (do not terminate it), use the following command:
+
+```
+docker compose up --build
+```
+
+This command will build and start the `repo-copilot` container. It will keep running in the foreground, so you can interact with it as needed.
+
+### Generate documentation
+
+To generate documentation for your repository, run the following command. This process is typically done once to create initial documentation:
+
+```
+docker exec repo-copilot python3 /repo-copilot/repo_documentation/multi_agent_app.py
+```
+
+### Setup workflows
+To set up workflows (update-docs.yml and update-comments.yml) for automatic documentation updates, run:
+
+```
+docker exec repo-copilot python3 /repo-copilot/setup_workflows.py
+```
+
+Note: Remember to manually push the generated documentation and workflows to the repository, preferably to the main branch.
+
+### Ensure Workflow Success
+Create an environment named "GPT" and add the variables from the .env file as secrets (excluding GITHUB_ACCESS_TOKEN and ROOT_FOLDER). This can be done in your repository settings under **Settings** > **Security** > **Secrets** and **Variables** > **Actions**.
+
+## Workflows
+
+### update-docs.yml
+This workflow triggers when a pull request is opened against the main branch and updates the documentation based on the changes between the pull request branch and the main branch.
+
+### update-comments.yml
+Use this workflow to modify the documentation further if the initial update is not satisfactory. You can request changes by commenting in the following format:
+```
+Documentation {file_path}: {comment}
+```
+`file_path`: Path to the source code file for which you want to update the documentation.
+`comment`: Prompt or instructions to guide the agent in updating the documentation.
+
+### Attribution
+This project includes features and improvements from a custom fork of the [code2flow](https://github.com/scottrogowski/code2flow/) project licensed under the MIT license. The code2flow project generate call graphs for dynamic programming languages and can be found [here](https://github.com/TomasKopunec/code2flow/tree/82b5b9f535b66c9d9f9f12bbb77f86bae0bdc248?tab=readme-ov-file). This fork is tailored to support Python only.
